@@ -16,7 +16,7 @@ my $numberOfArgs = $#ARGV + 1;
 sub createSpringServletConfigFile{
 	my $xml = "";
 	$xml .="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-	$xml .="<beans xmlns=\"http://www.springframework.org/schema/beans\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.springframework.org/schema/beans http://www.springframework/schema/beans/spring-beans-2.5.xsd\">\n";
+	$xml .="<beans xmlns=\"http://www.springframework.org/schema/beans\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd\">\n";
 	$xml .="<bean name=\"/hello.htm\" class=\"com.example.app.MyNewProject.HelloController\"/>\n";
 	$xml .="<bean id=\"viewResolver\" class=\"org.springframework.web.servlet.view.InternalResourceViewResolver\">\n";
 	$xml .="<property name=\"viewClass\" value=\"org.springframework.web.servlet.view.JstlView\"></property>\n";
@@ -197,7 +197,7 @@ sub main{
 	}
 	else{
 		createDirectories();
-		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/spring-servlet.xml",createSpringServletConfigFile());
+		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/springapp-servlet.xml",createSpringServletConfigFile());
 		runFileController("$projectLocation/$projectName/pom.xml", createPOMFile($projectName, $projectGroupId));
 		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/web.xml", createDeploymentDescriptorFile());
 		print ("OUT> MVN Project Name = $ARGV[0]\n");
