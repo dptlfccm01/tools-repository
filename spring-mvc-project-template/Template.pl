@@ -1,10 +1,16 @@
 #!/c:/strawberry/perl/bin/perl.exe
 
+# Instructions:
+# On the command prompt, enter:
+# Template.pl <projectname> <groupId>
+# e.g. Template.pl NewProject com.newproject.app
+
 use strict;
 use warnings;
 
 my $projectName = $ARGV[0];
 my $projectGroupId = $ARGV[1];
+my $projectLocation = $ARGV[2];
 my $numberOfArgs = $#ARGV + 1;
 
 sub createSpringServletConfigFile{
@@ -172,28 +178,28 @@ sub runFileController{
 }
 
 sub createDirectories{
-	mkdir("./$projectName");
-	mkdir("./$projectName/src");
-	mkdir("./$projectName/src/main");
-	mkdir("./$projectName/src/main/java");
-	mkdir("./$projectName/src/main/webapp");
-	mkdir("./$projectName/src/main/webapp/WEB-INF");
-	mkdir("./$projectName/src/main/webapp/WEB-INF/jsp");
-	mkdir("./$projectName/src/test");
-	mkdir("./$projectName/src/test/java");	
-	mkdir("./$projectName/src/resources");	
-	mkdir("./$projectName/target");	
+	mkdir("$projectLocation/$projectName");
+	mkdir("$projectLocation/$projectName/src");
+	mkdir("$projectLocation/$projectName/src/main");
+	mkdir("$projectLocation/$projectName/src/main/java");
+	mkdir("$projectLocation/$projectName/src/main/webapp");
+	mkdir("$projectLocation/$projectName/src/main/webapp/WEB-INF");
+	mkdir("$projectLocation/$projectName/src/main/webapp/WEB-INF/jsp");
+	mkdir("$projectLocation/$projectName/src/test");
+	mkdir("$projectLocation/$projectName/src/test/java");	
+	mkdir("$projectLocation/$projectName/src/resources");	
+	mkdir("$projectLocation/$projectName/target");	
 }
 
 sub main{
-	if($numberOfArgs != 2){
+	if($numberOfArgs != 3){
 		print("ERR> Please enter the project name and project group ID as arguments\n");
 	}
 	else{
 		createDirectories();
-		runFileController("./$projectName/src/main/webapp/WEB-INF/spring-servlet.xml",createSpringServletConfigFile());
-		runFileController("./$projectName/pom.xml", createPOMFile($projectName, $projectGroupId));
-		runFileController("./$projectName/src/main/webapp/WEB-INF/web.xml", createDeploymentDescriptorFile());
+		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/spring-servlet.xml",createSpringServletConfigFile());
+		runFileController("$projectLocation/$projectName/pom.xml", createPOMFile($projectName, $projectGroupId));
+		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/web.xml", createDeploymentDescriptorFile());
 		print ("OUT> MVN Project Name = $ARGV[0]\n");
 		print ("OUT> MVN Project Group ID = $ARGV[1]\n");
 	}
