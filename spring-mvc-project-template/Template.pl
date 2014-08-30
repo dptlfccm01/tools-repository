@@ -2,8 +2,8 @@
 
 # Instructions:
 # On the command prompt, enter:
-# Template.pl <projectname> <groupId>
-# e.g. Template.pl NewProject com.newproject.app
+# Template.pl <projectname> <groupId> <directory_location_where_folder_structure_is_created>
+# e.g. Template.pl NewProject com.newproject.app C:\myworkspace
 
 use strict;
 use warnings;
