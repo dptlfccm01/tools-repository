@@ -5,19 +5,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
 	<bean name="/hello.htm" class="com.example.app.MyNewProject.HelloController" />
-	
-	<bean name="/login.htm" class="com.example.app.MyNewProject.LoginController">
-		<property name="sessionForm" value="true" />
-		<property name="commandName" value="loginCommandName" />
-		<property name="commandClass" value="com.example.app.domain.Login"/>
-		<property name="validator">
-			<bean class="com.example.app.validator.LoginValidator"/>
-		</property>
-		<property name="formView" value="login"/>
-		<property name="successView" value="hello.htm"/>
-	</bean>
-	
-	
+	<bean name="/login.htm" class="com.example.app.MyNewProject.LoginController" />
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
 		<property name="prefix" value="/WEB-INF/jsp/"></property>
