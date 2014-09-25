@@ -107,6 +107,10 @@ sub createDeploymentDescriptorFile{
 	$xml .="<welcome-file>default.htm</welcome-file>\n";
 	$xml .="<welcome-file>default.jsp</welcome-file>\n";
 	$xml .="</welcome-file-list>\n";
+	$xml .="<error-page>\n";
+	$xml .="<error-code>404</error-code>\n";
+	$xml .="<location>/WEB-INF/jsp/error.jsp</location>\n";
+	$xml .="</error-page>\n";
 	$xml .="</web-app>\n";
 	return $xml;
 }
@@ -225,7 +229,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 public class HelloController implements Controller {\n\n
-//Example URL to be invoked when this web app is built: http://localhost:8080/<projectName>/hello.htm
+//Example URL to be invoked when this web app is built: http://localhost:8080/\<projectName\>/hello.htm
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException{
 		String now = \"24hours from BB\";
 		return new ModelAndView(\"hello\", \"now\", now);
@@ -257,6 +261,24 @@ $val .="<%@ page language=\"java\" contentType=\"text/html; charset=ISO-8859-1\"
 <body>
 <h1>Spring application</h1>
 <p>Greetings, it is now <c:out value=\"\${now}\" /></p>
+</body>
+</html>";
+return $val;
+}
+
+
+sub createSample404Page{
+	my $val = "";
+	$val .="<%@ page language=\"java\" contentType=\"text/html; charset=ISO-8859-1\"
+    pageEncoding=\"ISO-8859-1\"%>
+<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+<html>
+<head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">
+<title>Sample Error Page</title>
+</head>
+<body>
+<h2>Access Denied!</h2>
 </body>
 </html>";
 return $val;
@@ -306,6 +328,7 @@ sub main{
 		runFileController("$projectLocation/$projectName/src/main/java/com/example/app/MyNewProject/HelloController.java", createSampleJavaController());
 		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/jsp/include.jsp", createIncludeJSP());
 		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/jsp/hello.jsp", createSampleJSPView());
+		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/jsp/error.jsp", createSample404Page());
 		
 		print ("OUT> MVN Project Name = $ARGV[0]\n");
 		print ("OUT> MVN Project Group ID = $ARGV[1]\n");
