@@ -38,42 +38,125 @@ sub createPOMFile{
 	$xml .="<name>$_[0]</name>\n";
 	$xml .="<url>http://maven.apache.org</url>\n";
 	$xml .="<dependencies>\n";
-	$xml .="<dependency>\n";
+
+	foreach my $arg (@ARGV){
+		if($arg eq "JUnit"){
+			$xml .= dependencyJUnit();
+		}
+		if($arg eq "ServletAPI"){
+			$xml .= dependencyServletAPI();
+		}
+		if($arg eq "JSTL"){
+			$xml .= dependencyJSTL();
+		}
+		if($arg eq "JSP"){
+			$xml .= dependencyJSP();
+		}
+		if($arg eq "SpringMVC"){
+			$xml .= dependencySpringMVC();
+		}
+		if($arg eq "Taglibs"){
+			$xml .= dependencyTaglibs();
+		}
+	}
+	
+	$xml .="</dependencies>";
+	
+	$xml .="<build>\n<plugins>\n<plugin>\n";
+	$xml .="<groupId>org.apache.maven.plugins</groupId>\n";
+	$xml .="<artifactId>maven-compiler-plugin</artifactId>\n";
+	$xml .="<version>2.0.2</version>\n";
+	$xml .="<configuration>\n";
+	$xml .="<source>1.7</source>\n";
+	$xml .="<target>1.7</target>\n";
+	$xml .="</configuration>\n";
+	$xml .="</plugin></plugins>";
+	$xml .="<resources><resource><directory>src/resources</directory></resource></resources>";
+	$xml .="</build>";
+	$xml .="</project>";
+	return $xml;
+}
+
+sub createDeploymentDescriptorFile{
+	my $xml = "";
+	$xml .="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+	$xml .="<web-app xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://java.sun.com/xml/ns/javaee\" xmlns:web=\"http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd\" xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd\" id=\"WebApp_ID\" version=\"2.5\">\n";
+	$xml .="<display-name>MyNewproject</display-name>\n";
+	$xml .="<servlet>\n";
+	$xml .="<servlet-name>springapp</servlet-name>\n";
+	$xml .="<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>\n";
+	$xml .="</servlet>\n";
+	
+	$xml .="<servlet-mapping>\n";
+	$xml .="<servlet-name>springapp</servlet-name>\n";
+	$xml .="<url-pattern>*.htm</url-pattern>\n";
+	$xml .="</servlet-mapping>\n";
+	
+	$xml .="<welcome-file-list>\n";
+	$xml .="<welcome-file>index.html</welcome-file>\n";
+	$xml .="<welcome-file>index.htm</welcome-file>\n";
+	$xml .="<welcome-file>index.jsp</welcome-file>\n";	
+	$xml .="<welcome-file>default.html</welcome-file>\n";
+	$xml .="<welcome-file>default.htm</welcome-file>\n";
+	$xml .="<welcome-file>default.jsp</welcome-file>\n";
+	$xml .="</welcome-file-list>\n";
+	$xml .="</web-app>\n";
+	return $xml;
+}
+
+sub dependencyServletAPI{
+	my $xml ="<dependency>\n";
 	$xml .="<groupId>javax.servlet</groupId>\n";
 	$xml .="<artifactId>servlet-api</artifactId>\n";
 	$xml .="<version>2.4</version>\n";
 	$xml .="<scope>provided</scope>\n";
 	$xml .="</dependency>\n";	
-	
-	$xml .="<dependency>\n";
+	return $xml;
+}
+
+sub dependencyJSP{
+	my $xml ="<dependency>\n";
 	$xml .="<groupId>javax.servlet.jsp</groupId>\n";
 	$xml .="<artifactId>jsp-api</artifactId>\n";
 	$xml .="<version>2.1</version>\n";
 	$xml .="<scope>provided</scope>\n";
-	$xml .="</dependency>\n";	
+	$xml .="</dependency>\n";
+	return $xml;
+}
 
-	$xml .="<dependency>\n";
+sub dependencyJUnit{
+	my $xml ="<dependency>\n";
 	$xml .="<groupId>junit</groupId>\n";
 	$xml .="<artifactId>junit</artifactId>\n";
 	$xml .="<version>4.0</version>\n";
 	$xml .="<type>jar</type>\n";
 	$xml .="<scope>test</scope>\n";
 	$xml .="<optional>true</optional>\n";
-	$xml .="</dependency>\n";		
+	$xml .="</dependency>\n";
+	return $xml;
+}
 
-	$xml .="<dependency>\n";
-	$xml .="<groupId>taglibs</groupId>\n";
-	$xml .="<artifactId>standard</artifactId>\n";
-	$xml .="<version>1.1.2</version>\n";
-	$xml .="</dependency>\n";	
-	
-	$xml .="<dependency>\n";
+sub dependencyJSTL{
+	my $xml ="<dependency>\n";
 	$xml .="<groupId>javax.servlet</groupId>\n";
 	$xml .="<artifactId>jstl</artifactId>\n";
 	$xml .="<version>1.1.2</version>\n";
 	$xml .="</dependency>\n";
+	return $xml;
+}
 
-	$xml .="<dependency>\n";
+sub dependencyTaglibs{
+	my $xml ="<dependency>\n";
+	$xml .="<groupId>taglibs</groupId>\n";
+	$xml .="<artifactId>standard</artifactId>\n";
+	$xml .="<version>1.1.2</version>\n";
+	$xml .="</dependency>\n";
+	return $xml;
+}
+
+
+sub dependencySpringMVC{
+	my $xml ="<dependency>\n";
 	$xml .="<groupId>org.springframework</groupId>\n";
 	$xml .="<artifactId>spring-context</artifactId>\n";
 	$xml .="<version>3.1.1.RELEASE</version>\n";
@@ -123,47 +206,6 @@ sub createPOMFile{
 	$xml .="<version>3.1.1.RELEASE</version>\n";
 	$xml .="</dependency>\n";
 	
-	$xml .="</dependencies>";
-	
-	$xml .="<build>\n<plugins>\n<plugin>\n";
-	$xml .="<groupId>org.apache.maven.plugins</groupId>\n";
-	$xml .="<artifactId>maven-compiler-plugin</artifactId>\n";
-	$xml .="<version>2.0.2</version>\n";
-	$xml .="<configuration>\n";
-	$xml .="<source>1.7</source>\n";
-	$xml .="<target>1.7</target>\n";
-	$xml .="</configuration>\n";
-	$xml .="</plugin></plugins>";
-	$xml .="<resources><resource><directory>src/resources</directory></resource></resources>";
-	$xml .="</build>";
-	$xml .="</project>";
-	return $xml;
-}
-
-sub createDeploymentDescriptorFile{
-	my $xml = "";
-	$xml .="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-	$xml .="<web-app xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://java.sun.com/xml/ns/javaee\" xmlns:web=\"http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd\" xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd\" id=\"WebApp_ID\" version=\"2.5\">\n";
-	$xml .="<display-name>MyNewproject</display-name>\n";
-	$xml .="<servlet>\n";
-	$xml .="<servlet-name>springapp</servlet-name>\n";
-	$xml .="<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>\n";
-	$xml .="</servlet>\n";
-	
-	$xml .="<servlet-mapping>\n";
-	$xml .="<servlet-name>springapp</servlet-name>\n";
-	$xml .="<url-pattern>*.htm</url-pattern>\n";
-	$xml .="</servlet-mapping>\n";
-	
-	$xml .="<welcome-file-list>\n";
-	$xml .="<welcome-file>index.html</welcome-file>\n";
-	$xml .="<welcome-file>index.htm</welcome-file>\n";
-	$xml .="<welcome-file>index.jsp</welcome-file>\n";	
-	$xml .="<welcome-file>default.html</welcome-file>\n";
-	$xml .="<welcome-file>default.htm</welcome-file>\n";
-	$xml .="<welcome-file>default.jsp</welcome-file>\n";
-	$xml .="</welcome-file-list>\n";
-	$xml .="</web-app>\n";
 	return $xml;
 }
 
@@ -192,7 +234,7 @@ sub createDirectories{
 }
 
 sub main{
-	if($numberOfArgs != 3){
+	if($numberOfArgs < 3){
 		print("ERR> Please enter the project name and project group ID as arguments\n");
 	}
 	else{
