@@ -4,6 +4,13 @@
 # On the command prompt, enter:
 # Template.pl <projectname> <groupId> <directory_location_where_folder_structure_is_created>
 # e.g. Template.pl NewProject com.newproject.app C:\myworkspace
+# 
+#======================================================================================================================================================
+# VERSION HISTORY
+# 1. 25/09/2014 	Dependencies need to be added via the command line. 
+#					e.g. Template.pl myNewProject com.mynewProject c:\ JUnit JSTL ServletAPI Taglibs SpringMVC
+#
+#======================================================================================================================================================
 
 use strict;
 use warnings;
@@ -209,6 +216,52 @@ sub dependencySpringMVC{
 	return $xml;
 }
 
+sub createSampleJavaController{
+my $c = "";
+$c .="package com.example.app.MyNewProject;\n
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+public class HelloController implements Controller {\n\n
+//Example URL to be invoked when this web app is built: http://localhost:8080/<projectName>/hello.htm
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException{
+		String now = \"24hours from BB\";
+		return new ModelAndView(\"hello\", \"now\", now);
+	}
+}\n";
+return $c;
+}
+
+sub createIncludeJSP{
+my $val = "";
+$val .="<%@ page session=\"false\"%>
+<%@ taglib prefix=\"c\" uri=\"http://java.sun.com/jsp/jstl/core\" %>
+<%@ taglib prefix=\"fmt\" uri=\"http://java.sun.com/jsp/jstl/fmt\" %>";
+return $val;
+
+}
+
+sub createSampleJSPView{
+my $val ="";
+$val .="<%@ page language=\"java\" contentType=\"text/html; charset=ISO-8859-1\"
+    pageEncoding=\"ISO-8859-1\"%>
+<%@ include file=\"/WEB-INF/jsp/include.jsp\" %>
+<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+<html>
+<head>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Spring application</h1>
+<p>Greetings, it is now <c:out value=\"\${now}\" /></p>
+</body>
+</html>";
+return $val;
+}
+
 # $_[0] refers to the name of the file to be created (with the extension)
 # $_[1] refers to the content of the file, which is represented in the form of a string and stored as a variable.
 
@@ -224,13 +277,21 @@ sub createDirectories{
 	mkdir("$projectLocation/$projectName/src");
 	mkdir("$projectLocation/$projectName/src/main");
 	mkdir("$projectLocation/$projectName/src/main/java");
+	mkdir("$projectLocation/$projectName/src/main/java/com");
+	mkdir("$projectLocation/$projectName/src/main/java/com/example");
+	mkdir("$projectLocation/$projectName/src/main/java/com/example/app");
+	mkdir("$projectLocation/$projectName/src/main/java/com/example/app/MyNewProject");
 	mkdir("$projectLocation/$projectName/src/main/webapp");
 	mkdir("$projectLocation/$projectName/src/main/webapp/WEB-INF");
 	mkdir("$projectLocation/$projectName/src/main/webapp/WEB-INF/jsp");
 	mkdir("$projectLocation/$projectName/src/test");
 	mkdir("$projectLocation/$projectName/src/test/java");	
 	mkdir("$projectLocation/$projectName/src/resources");	
-	mkdir("$projectLocation/$projectName/target");	
+	mkdir("$projectLocation/$projectName/target");
+
+	# create directory for java package to store a controller class as a placeholder
+	
+	
 }
 
 sub main{
@@ -242,6 +303,10 @@ sub main{
 		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/springapp-servlet.xml",createSpringServletConfigFile());
 		runFileController("$projectLocation/$projectName/pom.xml", createPOMFile($projectName, $projectGroupId));
 		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/web.xml", createDeploymentDescriptorFile());
+		runFileController("$projectLocation/$projectName/src/main/java/com/example/app/MyNewProject/HelloController.java", createSampleJavaController());
+		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/jsp/include.jsp", createIncludeJSP());
+		runFileController("$projectLocation/$projectName/src/main/webapp/WEB-INF/jsp/hello.jsp", createSampleJSPView());
+		
 		print ("OUT> MVN Project Name = $ARGV[0]\n");
 		print ("OUT> MVN Project Group ID = $ARGV[1]\n");
 	}
