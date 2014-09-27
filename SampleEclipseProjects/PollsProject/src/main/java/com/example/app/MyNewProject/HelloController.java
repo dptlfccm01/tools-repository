@@ -15,9 +15,7 @@ public class HelloController{
 
 	@RequestMapping("/hello/user/{location}")
 	public ModelAndView HelloWorld(@PathVariable Map<String, String> pathVars){
-		
-		
-		
+	
 		String locationString = pathVars.get("location");
 		System.out.println("OUT> "+locationString);
 		
