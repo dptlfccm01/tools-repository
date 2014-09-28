@@ -7,10 +7,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SampleController {
 
-	@RequestMapping(value="/hello")
+	@RequestMapping("/test")
 	public ModelAndView helloWorld(){
 		ModelAndView m = new ModelAndView("hello");
-		m.addObject("msg", new String("Hello World"));
+		m.addObject("msg", "Hello world");
 		return m;
 	}
 }

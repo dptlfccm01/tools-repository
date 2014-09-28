@@ -9,6 +9,6 @@
 </head>
 <body>
 <h1>Spring application</h1>
-<p>Greetings, it is now <c:out value="${now}" /></p>
+<p>Greetings, it is now <c:out value="${msg}" /></p>
 </body>
 </html>
