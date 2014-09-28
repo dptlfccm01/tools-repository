@@ -10,5 +10,7 @@
 <body>
 	<h1>Congratulations! we have processed your form successfully</h1>
 	<h2>${msg}</h2>
+	<h3> Student Name: ${student1.studentName}</h3>
+	<h3> Student Hobby: ${student1.studentHobby}</h3>
 </body>
 </html>

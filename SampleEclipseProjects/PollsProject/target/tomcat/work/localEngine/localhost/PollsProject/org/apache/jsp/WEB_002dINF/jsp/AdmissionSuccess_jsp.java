@@ -69,6 +69,12 @@ public final class AdmissionSuccess_jsp extends org.apache.jasper.runtime.HttpJs
       out.write("\t<h2>");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${msg}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
       out.write("</h2>\r\n");
+      out.write("\t<h3> Student Name: ");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${student1.studentName}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
+      out.write("</h3>\r\n");
+      out.write("\t<h3> Student Hobby: ");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${student1.studentHobby}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
+      out.write("</h3>\r\n");
       out.write("</body>\r\n");
       out.write("</html>");
     } catch (Throwable t) {
